@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6학년 제주도 졸업여행 신청</title>
+<style>
+  :root {
+    --bg: #f6f3ee;
+    --card: #ffffff;
+    --ink: #2b2a28;
+    --sub: #6f6b64;
+    --line: #e3ddd3;
+    --accent: #2f6f8f;
+    --accent-soft: #e6f0f5;
+    --err: #b3412e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+  header { text-align: center; margin-bottom: 20px; }
+  header .parish { color: var(--sub); font-size: 14px; margin: 0; }
+  header h1 { font-size: 24px; margin: 4px 0 12px; letter-spacing: -0.5px; }
+  .info {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 18px; font-size: 15px; text-align: left;
+  }
+  .info dl { display: grid; grid-template-columns: 64px 1fr; gap: 4px 12px; margin: 0; }
+  .info dt { color: var(--sub); }
+  .info dd { margin: 0; }
+  section {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px; margin-top: 16px;
+  }
+  section h2 { font-size: 17px; margin: 0 0 14px; }
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  label.title { display: block; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .req { color: var(--err); margin-left: 2px; }
+  .hint { color: var(--sub); font-size: 13px; margin: 4px 0 0; }
+  input[type=text], input[type=tel], textarea {
+    width: 100%; font: inherit; color: inherit;
+    padding: 11px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff;
+  }
+  input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+  textarea { min-height: 88px; resize: vertical; }
+  .choices { display: flex; gap: 8px; }
+  .choices label {
+    flex: 1; text-align: center; padding: 10px; border: 1px solid var(--line); border-radius: 8px;
+    cursor: pointer; user-select: none;
+  }
+  .choices input { position: absolute; opacity: 0; pointer-events: none; }
+  .choices input:checked + span { font-weight: 700; color: var(--accent); }
+  .choices label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+  .rrn { display: flex; align-items: center; gap: 8px; }
+  .rrn input { text-align: center; letter-spacing: 1px; }
+  .rrn .front { flex: 6; }
+  .rrn .back { flex: 7; }
+  .consent {
+    font-size: 14px; color: var(--sub); background: #faf8f4; border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 10px;
+  }
+  .consent p { margin: 0 0 4px; }
+  .consent p:last-child { margin: 0; }
+  .consent b { color: var(--ink); font-weight: 600; }
+  .check { display: flex; gap: 8px; align-items: flex-start; font-weight: 600; font-size: 15px; cursor: pointer; }
+  .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); flex-shrink: 0; }
+  .error { color: var(--err); font-size: 13px; margin: 6px 0 0; display: none; }
+  .field.invalid .error { display: block; }
+  .field.invalid input, .field.invalid textarea, .field.invalid .choices label { border-color: var(--err); }
+  button[type=submit] {
+    width: 100%; margin-top: 20px; padding: 15px; font: inherit; font-weight: 700; font-size: 17px;
+    color: #fff; background: var(--accent); border: 0; border-radius: 10px; cursor: pointer;
+  }
+  button[disabled] { opacity: 0.6; cursor: default; }
+  .done { display: none; text-align: center; padding: 40px 18px; }
+  .done h2 { font-size: 20px; margin: 0 0 8px; }
+  .done p { color: var(--sub); margin: 0; }
+  .formerr { color: var(--err); text-align: center; margin-top: 12px; display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="parish">서하남성당 초등부 주일학교</p>
+    <h1>6학년 제주도 졸업여행 신청</h1>
+    <div class="info">
+      <dl>
+        <dt>일정</dt><dd>2027년 1월 10일~12일 (2박 3일)</dd>
+        <dt>장소</dt><dd>제주도</dd>
+        <dt>대상</dt><dd>초등부 주일학교 6학년</dd>
+        <dt>부담금</dt><dd>20만원 예정 (확정되면 안내드려요)</dd>
+        <dt>마감</dt><dd>11월 26일(목)까지</dd>
+      </dl>
+    </div>
+  </header>
+
+  <form id="form" novalidate>
+    <section>
+      <h2>학생 정보</h2>
+
+      <div class="field" data-name="gender">
+        <label class="title">성별<span class="req">*</span></label>
+        <div class="choices">
+          <label><input type="radio" name="gender" value="남"><span>남</span></label>
+          <label><input type="radio" name="gender" value="여"><span>여</span></label>
+        </div>
+        <p class="error">성별을 선택해 주세요.</p>
+      </div>
+
+      <div class="field" data-name="name">
+        <label class="title" for="name">이름<span class="req">*</span></label>
+        <input type="text" id="name" name="name" autocomplete="off">
+        <p class="error">이름을 적어 주세요.</p>
+      </div>
+
+      <div class="field" data-name="baptism">
+        <label class="title" for="baptism">세례명<span class="req">*</span></label>
+        <input type="text" id="baptism" name="baptism" autocomplete="off">
+        <p class="error">세례명을 적어 주세요.</p>
+      </div>
+
+      <div class="field" data-name="rrn">
+        <label class="title" for="rrn1">주민등록번호<span class="req">*</span></label>
+        <div class="rrn">
+          <input type="tel" id="rrn1" name="rrn1" class="front" maxlength="6" inputmode="numeric" placeholder="앞 6자리" autocomplete="off">
+          <span>-</span>
+          <input type="tel" id="rrn2" name="rrn2" class="back" maxlength="7" inputmode="numeric" placeholder="뒤 7자리" autocomplete="off">
+        </div>
+        <p class="hint">여행자보험 가입에만 사용하고, 여행이 끝나면 파기합니다.</p>
+        <p class="error">주민등록번호 13자리를 확인해 주세요.</p>
+      </div>
+
+      <div class="field" data-name="phone">
+        <label class="title" for="phone">학생 전화번호</label>
+        <input type="tel" id="phone" name="phone" inputmode="numeric" placeholder="010-0000-0000" autocomplete="off">
+        <p class="hint">휴대폰이 없으면 비워 두세요.</p>
+        <p class="error">전화번호를 확인해 주세요.</p>
+      </div>
+
+      <div class="field" data-name="note">
+        <label class="title" for="note">특이사항</label>
+        <textarea id="note" name="note" placeholder="알레르기, 복용 중인 약, 멀미, 식사 시 주의할 점 등"></textarea>
+      </div>
+    </section>
+
+    <section>
+      <h2>보호자 정보</h2>
+
+      <div class="field" data-name="guardian">
+        <label class="title" for="guardian">보호자 이름<span class="req">*</span></label>
+        <input type="text" id="guardian" name="guardian" autocomplete="name">
+        <p class="error">보호자 이름을 적어 주세요.</p>
+      </div>
+
+      <div class="field" data-name="emergency">
+        <label class="title" for="emergency">비상연락처<span class="req">*</span></label>
+        <input type="tel" id="emergency" name="emergency" inputmode="numeric" placeholder="010-0000-0000" autocomplete="tel">
+        <p class="hint">여행 중 바로 연락되는 번호로 적어 주세요.</p>
+        <p class="error">비상연락처를 확인해 주세요.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>개인정보 수집·이용 동의</h2>
+
+      <div class="field" data-name="agree1">
+        <div class="consent">
+          <p><b>수집 항목</b> 학생 성별·이름·세례명·전화번호·특이사항, 보호자 이름·비상연락처</p>
+          <p><b>목적</b> 졸업여행 참가 신청 확인, 여행 중 안전관리 및 비상연락</p>
+          <p><b>보유 기간</b> 여행 종료 후 즉시 파기</p>
+          <p>동의하지 않을 수 있으나, 동의하지 않으면 여행 참가가 어렵습니다.</p>
+        </div>
+        <label class="check"><input type="checkbox" name="agree1" value="동의">개인정보 수집·이용에 동의합니다.</label>
+        <p class="error">동의가 필요합니다.</p>
+      </div>
+
+      <div class="field" data-name="agree2">
+        <div class="consent">
+          <p><b>수집 항목</b> 학생 주민등록번호</p>
+          <p><b>목적</b> 여행자보험 가입 (보험사에 이름·주민등록번호 제공)</p>
+          <p><b>보유 기간</b> 여행 종료 후 즉시 파기</p>
+          <p>동의하지 않으면 여행자보험 가입이 어렵습니다.</p>
+        </div>
+        <label class="check"><input type="checkbox" name="agree2" value="동의">주민등록번호 수집·이용 및 보험사 제공에 동의합니다.</label>
+        <p class="error">동의가 필요합니다.</p>
+      </div>
+    </section>
+
+    <button type="submit" id="submitBtn">신청하기</button>
+    <p class="formerr" id="formErr">전송이 안 됐어요. 잠시 후 다시 눌러 주세요.</p>
+  </form>
+
+  <section class="done" id="done">
+    <h2>신청이 접수되었습니다</h2>
+    <p id="doneMsg"></p>
+  </section>
+</div>
+
+<script>
+  // 구글 Apps Script 웹앱 주소 (제주 졸업여행 신청 수집)
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbxtN1L9BKiDr4hGGzzLKU108b3XZvYZoPiGpfNMmcAldq_M80oxoYqQ45p15zJGZ9rh/exec";
+
+  const form = document.getElementById("form");
+  const digits = s => s.replace(/\D/g, "");
+
+  // 숫자만 입력 + 앞 6자리 채우면 뒷자리로 이동
+  const rrn1 = document.getElementById("rrn1");
+  const rrn2 = document.getElementById("rrn2");
+  rrn1.addEventListener("input", () => {
+    rrn1.value = digits(rrn1.value).slice(0, 6);
+    if (rrn1.value.length === 6) rrn2.focus();
+  });
+  rrn2.addEventListener("input", () => { rrn2.value = digits(rrn2.value).slice(0, 7); });
+
+  // 전화번호 자동 하이픈
+  function formatPhone(el) {
+    const d = digits(el.value).slice(0, 11);
+    el.value = d.length < 4 ? d : d.length < 8 ? d.slice(0, 3) + "-" + d.slice(3)
+      : d.slice(0, 3) + "-" + d.slice(3, d.length - 4) + "-" + d.slice(-4);
+  }
+  ["phone", "emergency"].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener("input", () => formatPhone(el));
+  });
+
+  function setInvalid(name, bad, msg) {
+    const f = form.querySelector(`.field[data-name="${name}"]`);
+    f.classList.toggle("invalid", bad);
+    if (msg) f.querySelector(".error").textContent = msg;
+    return bad;
+  }
+
+  function validate() {
+    const v = n => (form.elements[n].value || "").trim();
+    const gender = (form.querySelector('input[name=gender]:checked') || {}).value || "";
+    let bad = [];
+
+    if (setInvalid("gender", !gender)) bad.push("gender");
+    if (setInvalid("name", !v("name"))) bad.push("name");
+    if (setInvalid("baptism", !v("baptism"))) bad.push("baptism");
+
+    const r1 = v("rrn1"), r2 = v("rrn2");
+    let rrnMsg = "주민등록번호 13자리를 확인해 주세요.";
+    let rrnBad = r1.length !== 6 || r2.length !== 7;
+    if (!rrnBad && gender) {
+      const male = "1357".includes(r2[0]), female = "2468".includes(r2[0]);
+      if ((gender === "남" && !male) || (gender === "여" && !female)) {
+        rrnBad = true;
+        rrnMsg = "성별과 주민등록번호 뒷자리 첫 숫자가 맞지 않아요.";
+      }
+    }
+    if (setInvalid("rrn", rrnBad, rrnMsg)) bad.push("rrn");
+
+    const ph = digits(v("phone"));
+    if (setInvalid("phone", ph.length > 0 && (ph.length < 10 || ph.length > 11))) bad.push("phone");
+    if (setInvalid("guardian", !v("guardian"))) bad.push("guardian");
+    const em = digits(v("emergency"));
+    if (setInvalid("emergency", em.length < 9 || em.length > 11)) bad.push("emergency");
+    if (setInvalid("agree1", !form.elements.agree1.checked)) bad.push("agree1");
+    if (setInvalid("agree2", !form.elements.agree2.checked)) bad.push("agree2");
+
+    return { ok: bad.length === 0, first: bad[0], gender };
+  }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const res = validate();
+    if (!res.ok) {
+      form.querySelector(`.field[data-name="${res.first}"]`).scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    const btn = document.getElementById("submitBtn");
+    const err = document.getElementById("formErr");
+    btn.disabled = true; btn.textContent = "보내는 중…"; err.style.display = "none";
+
+    const v = n => (form.elements[n].value || "").trim();
+    const data = {
+      gender: res.gender,
+      name: v("name"),
+      baptism: v("baptism"),
+      rrn: v("rrn1") + "-" + v("rrn2"),
+      phone: v("phone"),
+      note: v("note"),
+      guardian: v("guardian"),
+      emergency: v("emergency"),
+      agree1: "동의",
+      agree2: "동의"
+    };
+
+    try {
+      await fetch(ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data)
+      });
+      form.style.display = "none";
+      document.getElementById("doneMsg").textContent =
+        `${data.name}(${data.baptism}) 학생 신청이 들어왔어요. 감사합니다.`;
+      document.getElementById("done").style.display = "block";
+      window.scrollTo(0, 0);
+    } catch (_) {
+      err.style.display = "block";
+      btn.disabled = false; btn.textContent = "신청하기";
+    }
+  });
+</script>
+</body>
+</html>
