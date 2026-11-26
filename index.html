@@ -198,6 +198,11 @@
     <p class="formerr" id="formErr">전송이 안 됐어요. 잠시 후 다시 눌러 주세요.</p>
   </form>
 
+  <section class="done" id="closed">
+    <h2>신청이 마감되었습니다</h2>
+    <p>졸업여행 신청은 11월 26일(목)에 마감되었어요. 감사합니다.</p>
+  </section>
+
   <section class="done" id="done">
     <h2>신청이 접수되었습니다</h2>
     <p id="doneMsg"></p>
@@ -208,7 +213,14 @@
   // 구글 Apps Script 웹앱 주소 (제주 졸업여행 신청 수집)
   const ENDPOINT = "https://script.google.com/macros/s/AKfycbxtN1L9BKiDr4hGGzzLKU108b3XZvYZoPiGpfNMmcAldq_M80oxoYqQ45p15zJGZ9rh/exec";
 
+  // 신청 마감 여부 (다시 열려면 false로)
+  const CLOSED = true;
+
   const form = document.getElementById("form");
+  if (CLOSED) {
+    form.style.display = "none";
+    document.getElementById("closed").style.display = "block";
+  }
   const digits = s => s.replace(/\D/g, "");
 
   // 숫자만 입력 + 앞 6자리 채우면 뒷자리로 이동
@@ -272,6 +284,7 @@
 
   form.addEventListener("submit", async e => {
     e.preventDefault();
+    if (CLOSED) return;
     const res = validate();
     if (!res.ok) {
       form.querySelector(`.field[data-name="${res.first}"]`).scrollIntoView({ behavior: "smooth", block: "center" });
